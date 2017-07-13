@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TicTacToe</string>
+    <string-array name="game_pieces01">
+        <item>Circle</item>
+        <item>Square</item>
+        <item>Triangle</item>
+        <item>Pentagon</item>
+    </string-array>
+    <string-array name="game_pieces02">
+        <item>Square</item>
+        <item>Circle</item>
+        <item>Triangle</item>
+        <item>Pentagon</item>
+    </string-array>
+</resources>
