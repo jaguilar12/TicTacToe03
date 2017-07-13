@@ -3,15 +3,20 @@ package com.example.jaguilar.tictactoe;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -89,11 +94,16 @@ public class MainActivity extends AppCompatActivity
 
     public void CreateSharedPref()
     {
+        ImageView img1 = (ImageView)findViewById(R.id.PlayerOneGamePiece);
+        img1.buildDrawingCache();
+        Bitmap map1 = img1.getDrawingCache();
+
         SharedPreferences sharedPreferences =
                 this.getSharedPreferences("com.example.datastorageexample",
                         Context.MODE_PRIVATE);
         sharedPreferences.edit().putString("one", ((TextView)findViewById(R.id.playerOneName)).getText().toString()).apply();
         sharedPreferences.edit().putString("two", ((TextView)findViewById(R.id.playerTwoName)).getText().toString()).apply();
+        sharedPreferences.edit().putString("imgOne", EncodeToBase64(map1)).apply();
     }
 
     public void playGameOnClick(View view)
@@ -101,5 +111,16 @@ public class MainActivity extends AppCompatActivity
         CreateSharedPref();
         Intent intent = new Intent(this, GameBoard.class);
         startActivity(intent);
+    }
+
+    public String EncodeToBase64(Bitmap image) {
+        Bitmap myImage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        myImage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        Log.d("Image Log:", imageEncoded);
+        return imageEncoded;
     }
 }
